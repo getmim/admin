@@ -50,7 +50,10 @@ class Controller extends \Mim\Controller implements \Mim\Iface\GateController
 
     public function show404(): void{
         $this->res->setStatus(404);
-        $this->resp('error/404', [], 'blank');
+        $params = [
+            '_meta' => ['title'=>'Error 404']
+        ];
+        $this->resp('error/404', $params, 'blank');
     }
 
     public function show404Action(): void{
@@ -63,7 +66,10 @@ class Controller extends \Mim\Controller implements \Mim\Iface\GateController
 
         $params = [
             'message' => $error->text,
-            'traces'  => []
+            'traces'  => [],
+            '_meta'   => [
+                'title'   => 'Error 500'
+            ]
         ];
 
         if(isset($error->trace)){

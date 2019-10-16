@@ -14,6 +14,8 @@ class Menu
 {
     static function getNavbarMenu(object $menu, array $params): array{
         $result = [];
+        if(!\Mim::$app->user->isLogin())
+            return [];
 
         $result[] = (object)[
             'id'       => 'me-auth',
@@ -27,29 +29,34 @@ class Menu
 
     static function getSubNavbarMenu(object $menu, object $parent, array $params): array{
         $result = [];
+        if(!\Mim::$app->user->isLogin())
+            return [];
 
         if(module_exists('site')){
             $result[] = (object)[
                 'label'     => 'Back to site',
                 'icon'      => '<i class="fas fa-globe"></i>',
                 'link'      => \Mim::$app->router->to('siteHome'),
-                'priority'  => 300
+                'priority'  => 10000
             ];
-        }
-
-        if($result){
             $result[] = (object)[
                 'label'     => '---',
                 'link'      => '#0',
-                'priority'  => 200
+                'priority'  => 9999
             ];
         }
+
+        $result[] = (object)[
+            'label'     => '---',
+            'link'      => '#0',
+            'priority'  => 11
+        ];
 
         $result[] = (object)[
             'label'     => 'Logout',
             'icon'      => '<i class="fas fa-sign-out-alt"></i>',
             'link'      => \Mim::$app->router->to('adminMeLogout'),
-            'priority'  => 100
+            'priority'  => 10
         ];
 
         return $result;
