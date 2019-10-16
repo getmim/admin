@@ -7,11 +7,23 @@
 
 namespace Admin;
 
-use LibView\Library\View;
 use AdminUi\Library\AConf;
+use LibView\Library\View;
+use LibActionLog\Library\Logger;
+
 
 class Controller extends \Mim\Controller implements \Mim\Iface\GateController
 {
+    public function addLog(array $data): void{
+        if(!module_exists('lib-action-log'))
+            return;
+
+        if(!isset($data['user']))
+            $data['user'] = $this->user->id;
+
+        Logger::create($data);
+    }
+
     public function ajax(bool $error, $data): void{
         $content = json_encode(['error'=>$error,'data'=>$data], JSON_PRESERVE_ZERO_FRACTION);
 
