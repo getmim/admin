@@ -8,6 +8,22 @@ Jalankan perintah di bawah di folder aplikasi:
 mim app install admin
 ```
 
+## Recovery / Register
+
+Untuk menambahkan link di halaman login ke halaman recovery password atau
+register, tambahkan konfigurasi seperti di bawah pada module/aplikasi:
+
+```php
+return [
+    'admin' => [
+        'login' => [
+            'recovery' => ['routeName', [], []],
+            'register' => ['routeName', [], []]
+        ]
+    ]
+];
+```
+
 ## Object Filter
 
 Module ini mendukung object filter yang ditangani oleh library external.

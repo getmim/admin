@@ -37,7 +37,15 @@ class AuthController extends \Admin\Controller
             ],
             'error' => false,
             'form'  => $form,
+            'recovery' => null,
+            'register' => null
         ];
+
+        $config = $this->config->admin->login;
+        if(isset($config->recovery))
+            $params['recovery'] = to_route($config->recovery);
+        if(isset($config->register))
+            $params['register'] = to_route($config->register);
 
         if(!($valid = $form->validate()) || !$form->csrfTest('noob'))
             return $this->resp('me/login', $params, 'blank');
