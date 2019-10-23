@@ -13,25 +13,21 @@
             <?php endif; ?>
 
             <?= $form->field('name'); ?>
+            <?php if($recovery): ?>
+                <div class="text-right">
+                    <small><a href="<?= hs($recovery) ?>">Forget password?</a></small>
+                </div>
+            <?php endif; ?>
             <?= $form->field('password'); ?>
             <?= $form->csrfField('noob'); ?>
 
             <div>
                 <button class="btn btn-primary btn-block">Login</button>
             </div>
-
-            <?php if($recovery || $register): ?>
-                <div class="row pt-3">
-                    <div class="col-6">
-                        <?php if($recovery): ?>
-                            <a href="<?= hs($recovery) ?>">Recovery</a>
-                        <?php endif; ?>
-                    </div>
-                    <div class="col-6 text-right">
-                        <?php if($register): ?>
-                            <a href="<?= hs($register) ?>">Register</a>
-                        <?php endif; ?>
-                    </div>
+            
+            <?php if($register): ?>
+                <div class="pt-3 text-center">
+                    Don't have an account? <a href="<?= hs($register) ?>">Create one</a>.
                 </div>
             <?php endif; ?>
         </form>
