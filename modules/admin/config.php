@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'admin',
-    '__version' => '0.2.0',
+    '__version' => '0.3.0',
     '__git' => 'git@github.com:getmim/admin.git',
     '__license' => 'MIT',
     '__author' => [
@@ -28,16 +28,17 @@ return [
                 'lib-model' => NULL
             ],
             [
-                'lib-user-perm' => NULL
-            ],
-            [
                 'lib-view' => NULL
             ],
             [
                 'lib-form' => NULL
             ]
         ],
-        'optional' => []
+        'optional' => [
+            [
+                'lib-user-perm' => NULL
+            ]
+        ]
     ],
     'autoload' => [
         'classes' => [
@@ -53,6 +54,10 @@ return [
             'Admin\\Library' => [
                 'type' => 'file',
                 'base' => 'modules/admin/library'
+            ],
+            'Admin\\Service' => [
+                'type' => 'file',
+                'base' => 'modules/admin/service'
             ]
         ],
         'files' => []
@@ -214,5 +219,8 @@ return [
         'login' => [
             'place' => 'holder'
         ]
+    ],
+    'service' => [
+        'admin/can_i' => 'Admin\\Service\\CanI'
     ]
 ];
