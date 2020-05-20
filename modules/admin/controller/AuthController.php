@@ -49,8 +49,12 @@ class AuthController extends \Admin\Controller
 
         if(!($valid = $form->validate()) || !$form->csrfTest('noob'))
             return $this->resp('me/login', $params, 'blank');
+
+        $ad_cond = [];
+        if(isset($config->where))
+            $ad_cond = (array)$config->where;
         
-        $user = $this->user->getByCredentials($valid->name, $valid->password);
+        $user = $this->user->getByCredentials($valid->name, $valid->password, $ad_cond);
         if(!$user){
             $params['error'] = true;
             return $this->resp('me/login', $params, 'blank');

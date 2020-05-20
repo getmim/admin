@@ -8,6 +8,26 @@ Jalankan perintah di bawah di folder aplikasi:
 mim app install admin
 ```
 
+## Kondisi Login
+
+Untuk menambahkan kondisi where pada saat user login, tambahkan konfigurasi
+seperti di bawah pada aplikias/module:
+
+```php
+return [
+    'admin' => [
+        'login' => [
+            'where' => [
+                'status' => 1
+            ]
+        ]
+    ]
+];
+```
+
+Bentuk seperti di atas akan menambahkan kondisi where `status = 1` pada saat pencarian
+user untuk login.
+
 ## Recovery / Register
 
 Untuk menambahkan link di halaman login ke halaman recovery password atau
