@@ -10,18 +10,31 @@ namespace Admin;
 use AdminUi\Library\AConf;
 use LibView\Library\View;
 use LibActionLog\Library\Logger;
-
+use LibEvent\Library\Event;
 
 class Controller extends \Mim\Controller implements \Mim\Iface\GateController
 {
     public function addLog(array $data): void{
-        if(!module_exists('lib-action-log'))
-            return;
+        if(module_exists('lib-action-log')){
+            if(!isset($data['user']))
+                $data['user'] = $this->user->id;
+            Logger::create($data);
+        }
+        
+        if(module_exists('lib-event')){
+            $actions = [
+                1 => 'created',
+                2 => 'updated',
+                3 => 'removed'
+            ];
+            $e_name = $data['type'] . ':' . $actions[ $data['method'] ];
 
-        if(!isset($data['user']))
-            $data['user'] = $this->user->id;
-
-        Logger::create($data);
+            Event::bind($e_name, [
+                'id'       => $data['object'],
+                'original' => $data['original'],
+                'changes'  => $data['changes']
+            ]);
+        }
     }
 
     public function ajax(bool $error, $data): void{
