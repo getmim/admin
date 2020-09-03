@@ -33,12 +33,21 @@ class Menu
             return [];
 
         if(module_exists('site')){
+            $back_site_link = \Mim::$app->router->to('siteHome');
+            if(\Mim::$app->config->admin->login->frontpage){
+                if(module_exists('admin-user-handshake') && module_exists('site-user-handshake')){
+                    $next = \Mim::$app->router->to('siteMeHandshakeReceive');
+                    $back_site_link = \Mim::$app->router->to('adminMeHandshakeDeliver', [], ['next'=>$next]);
+                }
+            }
+
             $result[] = (object)[
                 'label'     => 'Back to site',
                 'icon'      => '<i class="fas fa-globe"></i>',
-                'link'      => \Mim::$app->router->to('siteHome'),
+                'link'      => $back_site_link,
                 'priority'  => 10000
             ];
+            
             $result[] = (object)[
                 'label'     => '---',
                 'link'      => '#0',
@@ -49,14 +58,14 @@ class Menu
         $result[] = (object)[
             'label'     => '---',
             'link'      => '#0',
-            'priority'  => 11
+            'priority'  => 100
         ];
 
         $result[] = (object)[
             'label'     => 'Logout',
             'icon'      => '<i class="fas fa-sign-out-alt"></i>',
             'link'      => \Mim::$app->router->to('adminMeLogout'),
-            'priority'  => 10
+            'priority'  => 0
         ];
 
         return $result;

@@ -8,6 +8,49 @@ Jalankan perintah di bawah di folder aplikasi:
 mim app install admin
 ```
 
+## Login Middleware
+
+Semua request ke admin akan melewati middleware `Login` yang bertugas memastikan user yang
+sedang login sudah memenuhi kriteria user yang boleh masuk berdasarkan properti konfigurasi
+`config->admin->login->where`. Untuk melewati middleware tersebut pada suatu route, tambahkan
+konfigurasi seperti di bawah pada aplikasi / module:
+
+```php
+return [
+    'admin' => [
+        'middleware' => [
+            'login' => [
+                'ignore' => [
+                    'adminMeLogin' => true
+                ]
+            ]
+        ]
+    ]
+];
+```
+
+Bentuk konfigurasi seperti di atas akan memastikan route dengan nama `adminMeLogin` tidak
+akan melewati middleware `Auth`.
+
+## Site Handshake
+
+Untuk meneruskan session login user ke frontpage ketika klik `Back to site` dari halman
+admin jika domain name halaman admin berbeda dengan halaman site, tambahkan konfigurasi
+seperti di bawah pada aplikasi:
+
+```php
+return [
+	'admin' => [
+		'login' => [
+			'frontpage' => true
+		]
+	]
+];
+```
+
+Pastikan module `admin-user-handshake` dan `site-user-handshake` terpasang agar proses
+ini bisa berjalan dengan baik.
+
 ## Kondisi Login
 
 Untuk menambahkan kondisi where pada saat user login, tambahkan konfigurasi

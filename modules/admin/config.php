@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'admin',
-    '__version' => '0.5.0',
+    '__version' => '0.6.0',
     '__git' => 'git@github.com:getmim/admin.git',
     '__license' => 'MIT',
     '__author' => [
@@ -58,6 +58,10 @@ return [
             'Admin\\Service' => [
                 'type' => 'file',
                 'base' => 'modules/admin/service'
+            ],
+            'Admin\\Middleware' => [
+                'type' => 'file',
+                'base' => 'modules/admin/middleware'
             ]
         ],
         'files' => []
@@ -70,7 +74,12 @@ return [
             'path' => [
                 'value' => '/admin'
             ],
-            'priority' => 2000
+            'priority' => 2000,
+            'middlewares' => [
+                'pre' => [
+                    'Admin\\Middleware\\Login::auth' => 1
+                ]
+            ]
         ]
     ],
     'routes' => [
@@ -211,13 +220,19 @@ return [
         ]
     ],
     'admin' => [
+        'middleware' => [
+            'login' => [
+                'ignore' => []
+            ]
+        ],
         'objectFilter' => [
             'handlers' => [
                 'timezone' => 'Admin\\Library\\TimezoneFilter'
             ]
         ],
         'login' => [
-            'place' => 'holder'
+            'place' => 'holder',
+            'frontpage' => FALSE
         ]
     ],
     'service' => [
