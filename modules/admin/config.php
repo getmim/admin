@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'admin',
-    '__version' => '0.6.0',
+    '__version' => '0.7.0',
     '__git' => 'git@github.com:getmim/admin.git',
     '__license' => 'MIT',
     '__author' => [
@@ -129,6 +129,16 @@ return [
                     'lib-upload' => TRUE
                 ],
                 'handler' => 'LibUpload\\Controller\\Upload::init'
+            ],
+            'adminMediaValidate' => [
+                'path' => [
+                    'value' => '/-/lib-upload/validate'
+                ],
+                'method' => 'POST',
+                'modules' => [
+                    'lib-upload' => TRUE
+                ],
+                'handler' => 'LibUpload\\Controller\\Upload::validate'
             ],
             'adminObjectFilter' => [
                 'path' => [
