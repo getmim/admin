@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'admin',
-    '__version' => '0.7.0',
+    '__version' => '0.8.0',
     '__git' => 'git@github.com:getmim/admin.git',
     '__license' => 'MIT',
     '__author' => [
@@ -110,6 +110,16 @@ return [
                 ],
                 'handler' => 'Admin\\Controller\\Auth::logout'
             ],
+            'adminMediaChunk' => [
+                'path' => [
+                    'value' => '/-/lib-upload/chunk',
+                ],
+                'method' => 'POST',
+                'modules' => [
+                    'lib-upload' => true
+                ],
+                'handler' => 'LibUpload\\Controller\\Upload::chunk'
+            ],
             'adminMediaFilter' => [
                 'path' => [
                     'value' => '/-/lib-upload/filter'
@@ -119,6 +129,16 @@ return [
                     'lib-upload' => TRUE
                 ],
                 'handler' => 'LibUpload\\Controller\\Upload::filter'
+            ],
+            'adminMediaFinalize' => [
+                'path' => [
+                    'value' => '/-/lib-upload/finalize',
+                ],
+                'method' => 'POST',
+                'modules' => [
+                    'lib-upload' => true
+                ],
+                'handler' => 'LibUpload\\Controller\\Upload::finalize'
             ],
             'adminMediaUpload' => [
                 'path' => [

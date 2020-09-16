@@ -134,6 +134,8 @@ class Controller extends \Mim\Controller implements \Mim\Iface\GateController
         // upload file config
         if(module_exists('lib-upload')){
             AConf::add('libUpload', [
+                'chunk'    => $this->router->to('adminMediaChunk'),
+                'finalize' => $this->router->to('adminMediaFinalize'),
                 'search'   => $this->router->to('adminMediaFilter'),
                 'upload'   => $this->router->to('adminMediaUpload'),
                 'validate' => $this->router->to('adminMediaValidate'),
