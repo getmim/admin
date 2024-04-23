@@ -6,8 +6,9 @@
  */
 
 namespace Admin\Controller;
-use LibForm\Library\Form;
 
+use LibForm\Library\Form;
+use LibRecaptcha\Library\Validator;
 use LibUserAuthCookie\Authorizer\Cookie;
 
 class AuthController extends \Admin\Controller
@@ -46,6 +47,13 @@ class AuthController extends \Admin\Controller
             $params['recovery'] = to_route($config->recovery);
         if(isset($config->register))
             $params['register'] = to_route($config->register);
+
+        if (!is_dev() && $config->recaptcha) {
+            $token = $this->req->getPost('recaptcha');
+            if (!$token || !Validator::validate($token)) {
+                return $this->resp('me/login', $params, 'blank');
+            }
+        }
 
         if(!($valid = $form->validate()) || !$form->csrfTest('noob'))
             return $this->resp('me/login', $params, 'blank');

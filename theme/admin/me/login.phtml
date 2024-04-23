@@ -1,3 +1,6 @@
+<?php
+    $recaptcha = $this->config->admin->login->recaptcha;
+?>
 <div class="page-login">
     <div class="card">
         <form class="card-body needs-validation main" method="POST" novalidate>
@@ -21,6 +24,10 @@
             <?= $form->field('password'); ?>
             <?= $form->csrfField('noob'); ?>
 
+            <?php if (!$recaptcha): ?>
+                <input type="hidden" id="recaptcha" name="recaptcha">
+            <?php endif; ?>
+
             <div>
                 <button class="btn btn-primary btn-block">Login</button>
             </div>
@@ -33,3 +40,17 @@
         </form>
     </div>
 </div>
+
+<?php if ($recaptcha): ?>
+<?php $sitekey = $this->config->libRecaptcha->sitekey; ?>
+<script src="https://www.google.com/recaptcha/api.js?render=<?= $sitekey ?>"></script>
+<script>
+    grecaptcha.ready(() => {
+        let opts = {action:'login'}
+        grecaptcha.execute('<?= $sitekey ?>', opts)
+            .then(token => {
+                document.querySelector('#recaptcha').value = token
+            })
+    })
+</script>
+<?php endif; ?>
