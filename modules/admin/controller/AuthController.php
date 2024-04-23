@@ -10,6 +10,7 @@ namespace Admin\Controller;
 use LibForm\Library\Form;
 use LibRecaptcha\Library\Validator;
 use LibUserAuthCookie\Authorizer\Cookie;
+use LibUserAuthGoogleAuth\Library\Auth;
 
 class AuthController extends \Admin\Controller
 {
@@ -66,6 +67,14 @@ class AuthController extends \Admin\Controller
         if(!$user){
             $params['error'] = true;
             return $this->resp('me/login', $params, 'blank');
+        }
+
+        if ($config->googleauthenticator) {
+            $token = $this->req->getPost('gatoken');
+            if (!$token || !Auth::validate($user, $token)) {
+                $params['error'] = true;
+                return $this->resp('me/login', $params, 'blank');
+            }
         }
 
         Cookie::loginById($user->id);

@@ -32,6 +32,23 @@ return [
 Bentuk konfigurasi seperti di atas akan memastikan route dengan nama `adminMeLogin` tidak
 akan melewati middleware `Auth`.
 
+## Google Authenticator
+
+Tambahkan konfigurasi seperti di bawah untuk menambahkan google authenticator
+pada halaman login
+
+```php
+return [
+    'admin' => [
+        'login' => [
+            'googleauthenticator' => true
+        ]
+    ]
+];
+```
+
+Pastikan module `lib-user-auth-google-auth` sudah terpasang.
+
 ## reCaptcha
 
 Tambahkan konfigurasi seperti di bawah untuk menambahkan google recaptcha pada
