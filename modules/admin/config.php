@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'admin',
-    '__version' => '0.11.0',
+    '__version' => '0.11.1',
     '__git' => 'git@github.com:getmim/admin.git',
     '__license' => 'MIT',
     '__author' => [
@@ -19,24 +19,24 @@ return [
     '__dependencies' => [
         'required' => [
             [
-                'admin-ui' => NULL
+                'admin-ui' => null
             ],
             [
-                'lib-user' => NULL
+                'lib-user' => null
             ],
             [
-                'lib-model' => NULL
+                'lib-model' => null
             ],
             [
-                'lib-view' => NULL
+                'lib-view' => null
             ],
             [
-                'lib-form' => NULL
+                'lib-form' => null
             ]
         ],
         'optional' => [
             [
-                'lib-user-perm' => NULL
+                'lib-user-perm' => null
             ]
         ]
     ],
@@ -126,7 +126,7 @@ return [
                 ],
                 'method' => 'GET',
                 'modules' => [
-                    'lib-upload' => TRUE
+                    'lib-upload' => true
                 ],
                 'handler' => 'LibUpload\\Controller\\Upload::filter'
             ],
@@ -146,7 +146,7 @@ return [
                 ],
                 'method' => 'POST',
                 'modules' => [
-                    'lib-upload' => TRUE
+                    'lib-upload' => true
                 ],
                 'handler' => 'LibUpload\\Controller\\Upload::init'
             ],
@@ -156,7 +156,7 @@ return [
                 ],
                 'method' => 'POST',
                 'modules' => [
-                    'lib-upload' => TRUE
+                    'lib-upload' => true
                 ],
                 'handler' => 'LibUpload\\Controller\\Upload::validate'
             ],
@@ -186,7 +186,7 @@ return [
                     'label' => 'Title',
                     'type' => 'text',
                     'rules' => [
-                        'required' => TRUE
+                        'required' => true
                     ]
                 ],
                 'slug' => [
@@ -194,8 +194,8 @@ return [
                     'type' => 'text',
                     'slugof' => 'title',
                     'rules' => [
-                        'required' => TRUE,
-                        'empty' => FALSE
+                        'required' => true,
+                        'empty' => false
                     ]
                 ]
             ],
@@ -203,20 +203,20 @@ return [
                 'name' => [
                     'label' => 'Name',
                     'type' => 'text',
-                    'nolabel' => TRUE,
+                    'nolabel' => true,
                     'rules' => [
-                        'required' => TRUE,
-                        'empty' => FALSE
+                        'required' => true,
+                        'empty' => false
                     ]
                 ],
                 'password' => [
                     'label' => 'Password',
-                    'nolabel' => TRUE,
+                    'nolabel' => true,
                     'type' => 'password',
-                    'meter' => FALSE,
+                    'meter' => false,
                     'rules' => [
-                        'required' => TRUE,
-                        'empty' => FALSE
+                        'required' => true,
+                        'empty' => false
                     ]
                 ]
             ]
@@ -243,8 +243,8 @@ return [
                     'route' => ['adminHome',[],[]],
                     'priority' => 100000,
                     'perms' => 'read_dashboard',
-                    'filterable' => TRUE,
-                    'visible' => TRUE
+                    'filterable' => true,
+                    'visible' => true
                 ]
             ]
         ]
@@ -262,10 +262,10 @@ return [
         ],
         'login' => [
             'place' => 'holder',
-            'frontpage' => FALSE,
-            'recaptcha' => FALSE,
-            'captcha' => FALSE,
-            'googleauthenticator' => FALSE
+            'frontpage' => false,
+            'recaptcha' => false,
+            'captcha' => false,
+            'googleauthenticator' => false
         ]
     ],
     'service' => [

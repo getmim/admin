@@ -18,7 +18,7 @@ class AuthController extends \Admin\Controller
     public function logoutAction()
     {
         $session = $this->user->getSession();
-        if ($session){
+        if ($session) {
             $this->user->logout();
         }
 
@@ -52,20 +52,21 @@ class AuthController extends \Admin\Controller
 
         $config = $this->config->admin->login;
         if (isset($config->recovery)) {
-           $params['recovery'] = to_route($config->recovery);
+            $params['recovery'] = to_route($config->recovery);
         }
         if (isset($config->register)) {
             $params['register'] = to_route($config->register);
         }
 
-        if (!is_dev() && $config->recaptcha) {
+        if (!is_dev() && $this->req->method == 'POST' && $config->recaptcha) {
             $token = $this->req->getPost('recaptcha');
             if (!$token || !Validator::validate($token)) {
                 return $this->resp('me/login', $params, 'blank');
             }
         }
 
-        if (/*!is_dev() && */$this->config->admin->login->captcha) {
+        if ($this->req->method == 'POST'
+            && $this->config->admin->login->captcha) {
             $answer = $this->req->getPost('captcha');
             $token = $this->req->getPost('noob');
 
