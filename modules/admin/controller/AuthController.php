@@ -11,25 +11,31 @@ use LibForm\Library\Form;
 use LibRecaptcha\Library\Validator;
 use LibUserAuthCookie\Authorizer\Cookie;
 use LibUserAuthGoogleAuth\Library\Auth;
+use LibCaptcha\Library\Captcha;
 
 class AuthController extends \Admin\Controller
 {
-    public function logoutAction(){
+    public function logoutAction()
+    {
         $session = $this->user->getSession();
-        if($session)
+        if ($session){
             $this->user->logout();
+        }
 
         $next = $this->router->to('adminMeLogin');
         $this->res->redirect($next);
     }
 
-    public function loginAction() {
+    public function loginAction()
+    {
         $next = $this->req->getQuery('next');
-        if(!$next)
+        if (!$next) {
             $next = $this->router->to('adminHome');
+        }
 
-        if($this->user->isLogin())
+        if ($this->user->isLogin()) {
             return $this->res->redirect($next);
+        }
 
         $form = new Form('admin.me.login');
 
@@ -38,16 +44,19 @@ class AuthController extends \Admin\Controller
                 'title' => 'Login'
             ],
             'error' => false,
+            'captcha_error' => false,
             'form'  => $form,
             'recovery' => null,
             'register' => null
         ];
 
         $config = $this->config->admin->login;
-        if(isset($config->recovery))
-            $params['recovery'] = to_route($config->recovery);
-        if(isset($config->register))
+        if (isset($config->recovery)) {
+           $params['recovery'] = to_route($config->recovery);
+        }
+        if (isset($config->register)) {
             $params['register'] = to_route($config->register);
+        }
 
         if (!is_dev() && $config->recaptcha) {
             $token = $this->req->getPost('recaptcha');
@@ -56,15 +65,27 @@ class AuthController extends \Admin\Controller
             }
         }
 
-        if(!($valid = $form->validate()) || !$form->csrfTest('noob'))
+        if (/*!is_dev() && */$this->config->admin->login->captcha) {
+            $answer = $this->req->getPost('captcha');
+            $token = $this->req->getPost('noob');
+
+            if (!$token || !Captcha::validate($token, $answer)) {
+                $params['captcha_error'] = true;
+                return $this->resp('me/login', $params, 'blank');
+            }
+        }
+
+        if (!($valid = $form->validate()) || !$form->csrfTest('noob')) {
             return $this->resp('me/login', $params, 'blank');
+        }
 
         $ad_cond = [];
-        if(isset($config->where))
+        if (isset($config->where)) {
             $ad_cond = (array)$config->where;
+        }
         
         $user = $this->user->getByCredentials($valid->name, $valid->password, $ad_cond);
-        if(!$user){
+        if (!$user) {
             $params['error'] = true;
             return $this->resp('me/login', $params, 'blank');
         }

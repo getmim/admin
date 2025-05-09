@@ -1,6 +1,7 @@
 <?php
     $recaptcha = $this->config->admin->login->recaptcha;
     $gauth = $this->config->admin->login->googleauthenticator;
+    $captcha = $this->config->admin->login->captcha;
 ?>
 <div class="page-login">
     <div class="card">
@@ -22,15 +23,35 @@
                     <small><a href="<?= hs($recovery) ?>">Forget password?</a></small>
                 </div>
             <?php endif; ?>
+
             <?= $form->field('password'); ?>
+
             <?php if($gauth): ?>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Google Authenticator" name="gatoken" required>
                 </div>
             <?php endif; ?>
+
+            <?php if($captcha): ?>
+                <?php
+                    $captcha_image = \LibCaptcha\Library\Captcha::image($form->csrfToken(), 'admin');
+                ?>
+                <img src="<?= $captcha_image ?>" class="captcha-image">
+                <div class="form-group">
+                    <?php if($captcha_error): ?>
+                        <input type="text" class="form-control is-invalid" placeholder="Captcha Answer" name="captcha"
+                        required>
+                        <div class="invalid-feedback">Wrong captcha answer</div>
+                    <?php else: ?>
+                        <input type="text" class="form-control" placeholder="Captcha Answer" name="captcha"
+                        required>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
             <?= $form->csrfField('noob'); ?>
 
-            <?php if (!$recaptcha): ?>
+            <?php if ($recaptcha): ?>
                 <input type="hidden" id="recaptcha" name="recaptcha">
             <?php endif; ?>
 
@@ -59,4 +80,7 @@
             })
     })
 </script>
+<?php endif; ?>
+<?php if($captcha): ?>
+    <style>.captcha-image{ display:block;margin:0 auto 10px; }</style>
 <?php endif; ?>

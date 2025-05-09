@@ -64,6 +64,21 @@ return [
 ];
 ```
 
+## Captcha
+
+Tambahkan konfigurasi seperti di bawah untuk menambahkan captcha pada
+halaman login
+
+```php
+return [
+    'admin' => [
+        'login' => [
+            'captcha' => true
+        ]
+    ]
+];
+```
+
 Pastikan module `lib-recaptcha` sudah terpasang.
 
 ## Site Handshake

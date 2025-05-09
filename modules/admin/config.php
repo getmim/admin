@@ -2,7 +2,7 @@
 
 return [
     '__name' => 'admin',
-    '__version' => '0.10.0',
+    '__version' => '0.11.0',
     '__git' => 'git@github.com:getmim/admin.git',
     '__license' => 'MIT',
     '__author' => [
@@ -264,6 +264,7 @@ return [
             'place' => 'holder',
             'frontpage' => FALSE,
             'recaptcha' => FALSE,
+            'captcha' => FALSE,
             'googleauthenticator' => FALSE
         ]
     ],
